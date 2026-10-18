@@ -1,0 +1,11 @@
+{
+  "schema": "mote-program-capability-map-approval-v1",
+  "reviewed_document": "CAPABILITY-MAP.md",
+  "reviewed_document_sha256": "a3d871d6b86d33600fdf12040ea6ad22173f92c30aca3a902d6b1d1c9099871d",
+  "user_approval_message": "Approved",
+  "approval_scope": "Capability boundaries and build direction; the observation module execution contract remains separately reviewable",
+  "recorded_at": "2026-10-18T13:26:22.634300+03:00",
+  "original_mote_or_sdk_source_allowed": false,
+  "automatic_push_condition": "Tests and independent QA must pass for each milestone",
+  "module_execution_approved_by_this_record": false
+}

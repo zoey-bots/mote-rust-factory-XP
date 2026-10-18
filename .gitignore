@@ -1,0 +1,5 @@
+target/
+mote.exe
+*.test
+__pycache__/
+*.pyc

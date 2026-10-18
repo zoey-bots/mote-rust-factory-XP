@@ -1,0 +1,16 @@
+{
+  "replica_source_commit": "86d37971e0b53c33f9d2c4ba39f2a21a3cb053a4",
+  "public_combined_commit": "7f50140c4212951b3d0c79edf254b852016d34d5",
+  "implementation_qualification_commit": "626351e61dc80b49d3dc531b485f71ef70509213",
+  "mapping": {
+    "Cargo.toml": "rust/Cargo.toml",
+    "src/main.rs": "rust/src/main.rs",
+    "docs/OFFLINE-PILOT.md": "rust/README.md",
+    "docs/ASSESSMENT.md": "discovery/rust.md",
+    "docs/ASSESSMENT.json": "discovery/rust.json",
+    "evidence/public-observations.json": "evidence/public-observations.json",
+    "evidence/observations-decoded.md": "evidence/observations-decoded.md",
+    "scripts/check_public.py": "scripts/check_public.py"
+  },
+  "note": "Assessment citations use the earlier combined layout. Language prefixes map to this project root; implementation bytes are unchanged. No original MOTE source was used."
+}

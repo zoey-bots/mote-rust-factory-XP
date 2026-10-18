@@ -1,0 +1,28 @@
+{
+  "language": "rust",
+  "scope": "Finite Windows offline CLI/admission reconstruction only; not MOTE model/tool runtime or general semantic equivalence",
+  "reference_sha256": "fcbaf70916a2ab065366b14cd6b6b7d39afc50a59626a41adc8b157d5a3bc92f",
+  "replica_implementation_changed": false,
+  "original_MOTE_source_provided": false,
+  "retained_native_tests": {
+    "passed": 24,
+    "kind": "native Rust tests",
+    "failed": 0,
+    "ignored": 0
+  },
+  "retained_comparisons": {
+    "public": {
+      "passed": 29,
+      "total": 29
+    },
+    "heldout": {
+      "passed": 16,
+      "total": 16
+    }
+  },
+  "protected_inputs_published": false,
+  "full_MOTE_runtime_implemented": false,
+  "factory_worker_backend_implemented": false,
+  "research_output_claimed": false,
+  "note": "A split is packaging, not new runtime functionality. Fresh split qualification is retained by the Factory controller; protected case totals are not publicly reproducible from inputs in this repository."
+}

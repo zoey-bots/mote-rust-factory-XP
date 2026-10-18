@@ -1,0 +1,141 @@
+{
+  "language": "rust",
+  "reference_sha256": "fcbaf70916a2ab065366b14cd6b6b7d39afc50a59626a41adc8b157d5a3bc92f",
+  "original_source_access": false,
+  "full_reimplementation_complete": false,
+  "modules": [
+    {
+      "id": "observation-contract",
+      "status": "partial",
+      "evidence": [
+        "rust/src/main.rs:run lines 32-86 implement argv scanning and help/version short-circuit",
+        "public regression-01..29 (evidence/public-observations.json) give exact stdout/stderr/exit vectors for CLI/admission only",
+        "static hint: 'Usage: mote [--jsonl] <manifest.yaml> <task>' at binary offset 2028200 (hypothesis, not runtime-observed)"
+      ],
+      "next_probe": {
+        "objective": "Replay regression-01..29 against the reference from a disposable workspace and confirm exact bytes, then map a reviewed observation contract before any runtime work",
+        "filesystem": "disposable-fixtures-only",
+        "network": "loopback-only",
+        "paid_provider": false,
+        "original_source_access": false
+      }
+    },
+    {
+      "id": "manifest-admission",
+      "status": "partial",
+      "evidence": [
+        "rust/src/main.rs:validate_manifest, validate_map, parse_flow_map, classify_scalar, scalar_document_msg implement a limited YAML-shape admission check",
+        "rust/src/main.rs:6-19 MANIFEST_FIELDS list matches executable string at binary offset 2038344 (regression-17, 25)",
+        "regression-11 missing `name`; regression-12/14 sequence; regression-13 unit value; regression-17/25 unknown field",
+        "static hints: ShellConfig{allowed_programs,unsafe_shell} offset 2038272, ModelConfig/DecisionConfig offsets 2038152/2038708, 'max_output_bytes must be between 1 and 1048576' offset 2030728 (hypotheses)"
+      ],
+      "next_probe": {
+        "objective": "Vary one disposable manifest field at a time (name typing, workspace, numeric bounds, nested shell/models/decision, capabilities) to separate admission errors from runtime errors",
+        "filesystem": "disposable-fixtures-only",
+        "network": "loopback-only",
+        "paid_provider": false,
+        "original_source_access": false
+      }
+    },
+    {
+      "id": "provider-wire",
+      "status": "unknown",
+      "evidence": [
+        "no HTTP/model client exists in rust/src/main.rs",
+        "static hints only: 'openai-compatible' offset 2039168 and 'max_tokens'/ 'stream/choices/0/message/content' offset 2035576 (hypotheses, not observed runtime semantics)",
+        "rust/README.md states model/provider calls are not implemented"
+      ],
+      "next_probe": {
+        "objective": "Configure a controlled loopback HTTP mock and capture the reference request method/path/headers/body shape before implementing any provider schema",
+        "filesystem": "disposable-fixtures-only",
+        "network": "loopback-only",
+        "paid_provider": false,
+        "original_source_access": false
+      }
+    },
+    {
+      "id": "agent-loop",
+      "status": "missing",
+      "evidence": [
+        "no iteration/model/tool loop in rust/src/main.rs",
+        "rust/src/main.rs:76-85 prints an explicit not-implemented stderr line and exits 1 after admission",
+        "rust/README.md lists the agent loop as not implemented"
+      ],
+      "next_probe": {
+        "objective": "After reviewed manifest-admission and provider-wire contracts, observe the reference iteration sequence against a loopback mock and disposable fixtures",
+        "filesystem": "disposable-fixtures-only",
+        "network": "loopback-only",
+        "paid_provider": false,
+        "original_source_access": false
+      }
+    },
+    {
+      "id": "capability-tools",
+      "status": "missing",
+      "evidence": [
+        "no shell/read_file/write_file/list_dir/git/custom execution in rust/src/main.rs",
+        "static hints: Action::{shell,read_file,write_file,list_dir,git,decision,custom,complete} offset 2036528, 'custom tool input must be a JSON object' offset 2031197, action-shape examples offset 2039529 (hypotheses)"
+      ],
+      "next_probe": {
+        "objective": "Drive read_file/list_dir/write_file on disposable fixtures via the reference and confirm capability enforcement and permission errors before implementing tools",
+        "filesystem": "disposable-fixtures-only",
+        "network": "loopback-only",
+        "paid_provider": false,
+        "original_source_access": false
+      }
+    },
+    {
+      "id": "runtime-budgets",
+      "status": "missing",
+      "evidence": [
+        "no enforcement of max_iterations/max_per_tool/max_runtime_seconds/command_timeout_seconds/max_output_bytes in rust/src/main.rs",
+        "static hints: 'iteration budget exhausted' and 'repeated action guard' offsets 2031744/2032353, 'read_file tool call limit' offset 2032008 (hypotheses)"
+      ],
+      "next_probe": {
+        "objective": "Exercise per-tool limits, timeouts and cancellation signatures against a loopback mock on disposable fixtures and record exact limit wording and exit codes",
+        "filesystem": "disposable-fixtures-only",
+        "network": "loopback-only",
+        "paid_provider": false,
+        "original_source_access": false
+      }
+    },
+    {
+      "id": "event-artifacts",
+      "status": "unknown",
+      "evidence": [
+        "rust/src/main.rs:50-53,79-81 only acknowledge --jsonl and emit no event stream",
+        "no output_file writing or run artifacts in rust/src/main.rs",
+        "static hints: 'output_file requires write_file capability' and 'output_file must be UTF-8' offset 2031744 (hypotheses)"
+      ],
+      "next_probe": {
+        "objective": "Capture reference stdout under --jsonl into a fixture dir and record event line schema, ordering, and any output_file artifact bytes",
+        "filesystem": "disposable-fixtures-only",
+        "network": "loopback-only",
+        "paid_provider": false,
+        "original_source_access": false
+      }
+    },
+    {
+      "id": "daily-use-qualification",
+      "status": "missing",
+      "evidence": [
+        "rust/README.md states no agent runtime, tool execution, or network access of any kind",
+        "metadata/ACCEPTANCE.json scope is finite offline CLI/admission only, not model/tool runtime",
+        "no end-to-end model/tool/file workflow, failure, budget or cancellation tests exist for the runtime"
+      ],
+      "next_probe": {
+        "objective": "Design a disposable end-to-end model/tool/file workflow plus failure/budget/cancellation checks against a loopback mock before claiming any daily-use readiness",
+        "filesystem": "disposable-fixtures-only",
+        "network": "loopback-only",
+        "paid_provider": false,
+        "original_source_access": false
+      }
+    }
+  ],
+  "open_questions": [
+    "What exact provider wire request does the reference send (method, path, headers, body, auth) to a configured base URL, and how is a local mock endpoint selected?",
+    "What is the full admitted Manifest schema (nested shell/models/decision objects, capability enum, numeric bounds) and which values are rejected vs accepted at runtime?",
+    "What JSONL event schema, action/decision grammar, per-tool limit wording, timeout/cancellation behavior, and output_file semantics does the reference actually emit?",
+    "How is a task granted a capability (e.g. shell/git/write_file), and what exact refusal does the reference produce when a capability is absent?"
+  ]
+}
